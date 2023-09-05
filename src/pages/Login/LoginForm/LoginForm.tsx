@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import ReactHookField from "../../../components/ReactHookField";
+import { useNavigate } from "react-router-dom";
 
 const defaultInitialValues = {
   username: "",
@@ -8,14 +9,15 @@ const defaultInitialValues = {
 };
 
 const LoginForm = () => {
+  const navigate = useNavigate();
   const [errorMessage, setErrorMessage] = useState("");
   const methods = useForm({
     defaultValues: defaultInitialValues,
   });
 
   const onSubmit = (data: { username: string; password: string }) => {
-    console.log('onSubmit');
-    setErrorMessage("error");
+    localStorage.setItem('user-token', '123456789');
+    navigate('/list');
   };
 
   return (
