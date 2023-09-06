@@ -25,7 +25,7 @@ const ReactHookField = ({
   return (
     <div>
       {label && (
-        <p className="m-0 mb-1.5 text-sm font-medium text-black">
+        <p className="m-0 mb-1.5 text-sm font-medium text-darkGrey">
           {label}
           {required && "*"}
         </p>
@@ -35,7 +35,7 @@ const ReactHookField = ({
           type={type}
           placeholder={otherProps?.placeholder || ""}
           className={`
-            h-11 w-full appearance-none rounded-lg border-0 px-3.5 py-2.5 ring-1 placeholder:text-black focus-visible:outline-0
+            h-11 w-full appearance-none rounded-lg border-0 px-3.5 py-2.5 ring-1 placeholder:text-darkGrey focus-visible:outline-0
             ${errors[name]?.message ? "ring-red-700" : "ring-white"}
           `}
           {...register(name, {
