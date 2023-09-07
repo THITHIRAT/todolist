@@ -1,19 +1,27 @@
+import { UseMutateFunction } from "react-query";
 import LoadingLayout from "../../../components/LoadingLayout";
+import { ITodoResponse } from "../../../interfaces/todo";
+import TodoCard from "../TodoCard";
 
 interface ITodoList {
-  todoList: any;
-  isToodoListLoading: boolean;
+  todoList: ITodoResponse[] | undefined;
+  isLoading: boolean;
+  deleteTodo: UseMutateFunction<any, unknown, string, unknown>;
 }
 
-const TodoList = ({ todoList, isToodoListLoading }: ITodoList) => {
-  if (isToodoListLoading) {
+const TodoList = ({ todoList, isLoading, deleteTodo }: ITodoList) => {
+  if (isLoading) {
     return <LoadingLayout />;
   }
 
   return (
-    <div className="p-4">
+    <div className="py-4">
       {todoList?.length !== 0 ? (
-        <div>Todo List</div>
+        <div className="flex flex-col gap-2">
+          {todoList?.map((todo: ITodoResponse) => (
+            <TodoCard key={todo._id} todo={todo} deleteTodo={deleteTodo} />
+          ))}
+        </div>
       ) : (
         <h3 className="text-darkGrey text-center">
           Please press Create to add a new task to your empty to-do list.

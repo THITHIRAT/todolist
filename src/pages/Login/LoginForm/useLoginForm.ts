@@ -16,7 +16,7 @@ const useLoginForm = () => {
         setErrorMessage(response.message);
       }
       setTimeout(() => {
-        navigate("/list");
+        navigate("/todos");
       }, 500);
     },
   });

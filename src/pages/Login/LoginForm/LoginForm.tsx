@@ -41,7 +41,7 @@ const LoginForm = () => {
         )}
         <div className="mt-8">
           <button
-            className={`w-full h-11 bg-white rounded-lg text-darkGrey ${
+            className={`w-full h-11 bg-white text-gray-600 ease-in-out hover:border-gray-400 border rounded-lg ${
               isLoading ? "opacity-60 cursor-progress" : "opacity-100 cursor-pointer"
             }`}
             type="submit"
