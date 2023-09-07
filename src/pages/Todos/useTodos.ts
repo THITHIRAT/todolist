@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from "react-query";
-import { createTask, deleteTask, getTodos } from "../../api/todo";
+import { createTask, deleteTask, getTodoDetail, getTodos, updateTask } from "../../api/todo";
 import { useEffect, useState } from "react";
 
 const useTodos = () => {
@@ -20,6 +20,15 @@ const useTodos = () => {
     }
   );
 
+  const { mutate: updateTodo, isLoading: isUpdateTodoLoading } = useMutation(
+    updateTask,
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("getTodos");
+      },
+    }
+  );
+
   const { mutate: deleteTodo, isLoading: isDeleteTodoLoading } = useMutation(
     deleteTask,
     {
@@ -31,13 +40,22 @@ const useTodos = () => {
 
   useEffect(() => {
     setIsLoading(
-      isToodoListLoading || isCreateTodoLoading || isDeleteTodoLoading
+      isToodoListLoading ||
+        isCreateTodoLoading ||
+        isUpdateTodoLoading ||
+        isDeleteTodoLoading
     );
-  }, [isToodoListLoading, isCreateTodoLoading, isDeleteTodoLoading]);
+  }, [
+    isToodoListLoading,
+    isCreateTodoLoading,
+    isUpdateTodoLoading,
+    isDeleteTodoLoading,
+  ]);
 
   return {
     todoList,
     createTodo,
+    updateTodo,
     deleteTodo,
     isLoading,
   };

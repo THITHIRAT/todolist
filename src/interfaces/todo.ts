@@ -7,3 +7,5 @@ export interface ITodoResponse {
 }
 
 export type ITodo = Omit<ITodoResponse, "_id" | "createdAt" | "updatedAt">;
+
+export type IEditTodo = Omit<ITodoResponse, "createdAt" | "updatedAt">;

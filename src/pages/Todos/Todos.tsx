@@ -2,20 +2,26 @@ import { useState } from "react";
 import TodoList from "./TodoList";
 import useTodos from "./useTodos";
 import CreateTodoModal from "./CreateTodoModal";
-import { ITodo } from "../../interfaces/todo";
-import DeleteTodoModal from "./DeleteTodoModal";
+import { IEditTodo, ITodo } from "../../interfaces/todo";
 
 const Todos = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-  const { createTodo, deleteTodo, todoList, isLoading } = useTodos();
+  const [editTodoId, setEditTodoId] = useState("");
+  const { createTodo, updateTodo, deleteTodo, todoList, isLoading } =
+    useTodos();
 
   const handleCreateModal = () => {
     setIsCreateModalOpen((prevValue) => !prevValue);
   };
 
-  const onSubmit = (data: ITodo) => {
+  const onCreateSubmit = (data: ITodo) => {
     createTodo(data);
     setIsCreateModalOpen(false);
+  };
+
+  const onEditSubmit = (data: IEditTodo) => {
+    updateTodo(data);
+    setEditTodoId("");
   };
 
   return (
@@ -31,10 +37,16 @@ const Todos = () => {
           todoList={todoList}
           isLoading={isLoading}
           deleteTodo={deleteTodo}
+          editTodoId={editTodoId}
+          setEditTodoId={setEditTodoId}
+          onEditSubmit={onEditSubmit}
         />
       </div>
       {isCreateModalOpen && (
-        <CreateTodoModal setIsCreateModalOpen={setIsCreateModalOpen} onSubmit={onSubmit} />
+        <CreateTodoModal
+          setIsCreateModalOpen={setIsCreateModalOpen}
+          onCreateSubmit={onCreateSubmit}
+        />
       )}
     </div>
   );

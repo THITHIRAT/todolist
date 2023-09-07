@@ -1,15 +1,25 @@
 import dayjs from "dayjs";
 import { UseMutateFunction } from "react-query";
-import { ITodoResponse } from "../../../interfaces/todo";
+import { IEditTodo, ITodoResponse } from "../../../interfaces/todo";
 import DeleteTodoModal from "../DeleteTodoModal";
 import { useState } from "react";
+import EditTodoModal from "../EditTodoModal";
 
 interface ITodoCard {
   todo: ITodoResponse;
   deleteTodo: UseMutateFunction<any, unknown, string, unknown>;
+  editTodoId: string;
+  setEditTodoId: React.Dispatch<React.SetStateAction<string>>;
+  onEditSubmit: (data: IEditTodo) => void;
 }
 
-const TodoCard = ({ todo, deleteTodo }: ITodoCard) => {
+const TodoCard = ({
+  todo,
+  deleteTodo,
+  editTodoId,
+  setEditTodoId,
+  onEditSubmit,
+}: ITodoCard) => {
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   const handleDeleteTodo = () => {
@@ -19,7 +29,10 @@ const TodoCard = ({ todo, deleteTodo }: ITodoCard) => {
 
   return (
     <div className="flex justify-between w-full bg-primary rounded-lg p-4">
-      <div className="flex-1 flex flex-col">
+      <div
+        className="flex-1 flex flex-col"
+        onClick={() => setEditTodoId(todo._id)}
+      >
         <h2 className="text-white font-semibold">{todo.title}</h2>
         <span className="text-white">{todo.description}</span>
       </div>
@@ -27,18 +40,25 @@ const TodoCard = ({ todo, deleteTodo }: ITodoCard) => {
         <span className="text-secondary text-sm">
           {dayjs(todo.updatedAt).format("DD/MM/YY")}
         </span>
-        <span
-          className="text-red-500 text-sm cursor-pointer"
+        <button
+          className="text-red-500 hover:text-white text-sm cursor-pointer"
           onClick={() => setIsDeleteModalOpen(true)}
         >
           Delete
-        </span>
+        </button>
       </div>
       {isDeleteModalOpen && (
         <DeleteTodoModal
           todo={todo}
           handleDeleteTodo={handleDeleteTodo}
           setIsDeleteModalOpen={setIsDeleteModalOpen}
+        />
+      )}
+      {editTodoId && (
+        <EditTodoModal
+          editTodoId={editTodoId}
+          setEditTodoId={setEditTodoId}
+          onEditSubmit={onEditSubmit}
         />
       )}
     </div>
