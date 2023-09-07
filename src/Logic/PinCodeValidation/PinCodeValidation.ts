@@ -9,9 +9,7 @@ const pinCodeValidation = (num: number) => {
     if (digits[i] === digits[i + 1] && digits[i] === digits[i + 2]) {
       return false;
     }
-  }
-
-  for (let i = 0; i < digits.length - 2; i++) {
+  
     if (
       digits[i] === digits[i + 1] - 1 &&
       digits[i] === digits[i + 2] - 2
